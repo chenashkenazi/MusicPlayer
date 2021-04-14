@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#000"
+    android:clickable="true">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add a new song"
+        android:textSize="35sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/montserrat"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:id="@+id/add_new_song_tv"/>
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Song name"
+        android:textSize="20sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/montserrat"
+        android:textColor="#fff"
+        android:textColorHint="@color/grey"
+        android:background="@drawable/edit_text"
+        android:padding="10dp"
+        android:id="@+id/song_name_et"/>
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Artist name"
+        android:textSize="20sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/montserrat"
+        android:textColor="#fff"
+        android:textColorHint="@color/grey"
+        android:background="@drawable/edit_text"
+        android:padding="10dp"
+        android:id="@+id/artist_name_et"/>
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Song URL"
+        android:textSize="20sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/montserrat"
+        android:textColor="#fff"
+        android:textColorHint="@color/grey"
+        android:background="@drawable/edit_text"
+        android:padding="10dp"
+        android:id="@+id/url_et"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Take Picture"
+            android:textAllCaps="false"
+            android:fontFamily="@font/montserrat"
+            android:id="@+id/take_picture_btn"
+            android:layout_marginRight="5dp"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/dark_purple"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose From Gallery"
+            android:textAllCaps="false"
+            android:fontFamily="@font/montserrat"
+            android:backgroundTint="@color/dark_purple"
+            android:id="@+id/choose_from_gallery_btn"
+            />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:scaleType="fitXY"
+        android:id="@+id/selected_song_picture"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:textAllCaps="false"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/montserrat"
+        android:id="@+id/done_btn"
+        android:backgroundTint="@color/light_purple"
+        />
+
+</LinearLayout>

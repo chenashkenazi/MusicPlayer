@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main_page"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/title_layout"
+        android:background="#000">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Music Player"
+            android:textColor="#fff"
+            android:textSize="35sp"
+            android:padding="15dp"
+            android:fontFamily="@font/montserrat"
+            android:layout_centerHorizontal="true"
+            />
+
+<!--        <ImageView-->
+<!--            android:layout_width="800dp"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:src="@drawable/logo"/>-->
+
+        <android.widget.Button
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:text="+"
+            android:textColor="#fff"
+            android:textSize="20sp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:id="@+id/add_new_song_btn"
+            android:background="@drawable/fade_button"
+            />
+
+    </RelativeLayout>
+
+<!--    <include-->
+<!--        layout="@layout/control_panel"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:id="@+id/control_panel"-->
+<!--        />-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recycler"
+        android:layout_below="@+id/title_layout"
+        android:background="#000"
+        />
+
+
+
+</RelativeLayout>
