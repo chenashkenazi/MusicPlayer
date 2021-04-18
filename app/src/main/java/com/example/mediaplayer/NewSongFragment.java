@@ -89,11 +89,6 @@ public class NewSongFragment extends Fragment {
             }
         });
 
-        /*
-        * add onclicklisteners to buttons
-        * add take pic and choose pic
-        */
-
         return rootView;
     }
 
@@ -124,7 +119,6 @@ public class NewSongFragment extends Fragment {
                         .load(imageUri)
                         .into(songImage);
                 uri = imageUri.toString();
-                //songImage.setImageBitmap(bitmap);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

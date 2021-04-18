@@ -22,7 +22,6 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
 
     private List<Song> songs;
     private MySongListener listener;
-    private Context mContext;
 
     interface MySongListener {
         void onSongClick(int position, View view);
@@ -41,7 +40,6 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
 
         TextView songName;
         TextView songArtistName;
-        // String link;
         ImageView songImage;
 
         public SongViewHolder(@NonNull View itemView) {
@@ -63,7 +61,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    // change songs order
+
                     return false;
                 }
             });

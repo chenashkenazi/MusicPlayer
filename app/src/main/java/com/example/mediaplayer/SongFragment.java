@@ -14,6 +14,7 @@ import android.os.IBinder;
 import android.provider.MediaStore;
 import android.text.format.DateUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,10 +49,8 @@ public class SongFragment extends Fragment implements ActionPlaying, ServiceConn
 
     private int fPosition = -1;
 
-    // static MediaPlayer mediaPlayer;
-
     private TextView songLayoutName, songLayoutArtistName, songLayoutDurationPlayed, songLayoutDurationTotal;
-    private ImageView previousBtn, playAndPauseBtn, nextBtn, shuffleBtn;
+    private ImageView previousBtn, playAndPauseBtn, nextBtn, shuffleBtn, songLayoutImage;
     boolean isShuffle = false;
 
     private SeekBar seekBar;
@@ -80,19 +79,8 @@ public class SongFragment extends Fragment implements ActionPlaying, ServiceConn
 
         fragmentSongsList = songsList;
 
-        // song time
         songFragment.setArguments(bundle);
         return songFragment;
-
-        /*
-        get intent method:
-        get the position - V
-        get the songs arraylist - V
-        set the playpause btn to pause image -
-        set the song link -
-        do all the media player shit - V in on create
-
-        */
     }
 
     @Nullable
@@ -103,12 +91,7 @@ public class SongFragment extends Fragment implements ActionPlaying, ServiceConn
 
         songLayoutName = rootView.findViewById(R.id.song_layout_name);
         songLayoutArtistName = rootView.findViewById(R.id.song_layout_artist_name);
-        //songLayoutDurationPlayed = rootView.findViewById(R.id.duration_played);
-        //songLayoutDurationTotal = rootView.findViewById(R.id.duration_total);
-        ImageView songLayoutImage = rootView.findViewById(R.id.song_layout_image);
-        // song time
-
-        //seekBar = rootView.findViewById(R.id.seek_bar);
+        songLayoutImage = rootView.findViewById(R.id.song_layout_image);
 
         previousBtn = rootView.findViewById(R.id.song_layout_previos_btn);
         playAndPauseBtn = rootView.findViewById(R.id.song_layout_play_btn);
@@ -119,36 +102,10 @@ public class SongFragment extends Fragment implements ActionPlaying, ServiceConn
         songLink = getArguments().getString("song_link");
         String songImage = getArguments().getString("song_image");
 
-//        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                if (musicPlayerService != null) {
-//                    musicPlayerService.seekTo(progress * 1000);
-//                }
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//        });
+        Log.i("testing", "fPosition: " + fPosition);
+        Log.i("testing", "songLink: " + songLink);
+        Log.i("testing", "fragmentSongsList: " + fragmentSongsList);
 
-//        getActivity().runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (musicPlayerService != null) {
-//                    int mCurrentPosition = musicPlayerService.getCurrentPosition() / 1000;
-//                    seekBar.setProgress(mCurrentPosition);
-//                    songLayoutDurationPlayed.setText(formattedTime(mCurrentPosition));
-//                }
-//                handler.postDelayed(this, 1000);
-//            }
-//        });
 
         shuffleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,32 +121,6 @@ public class SongFragment extends Fragment implements ActionPlaying, ServiceConn
             }
         });
 
-//        if(musicPlayerService != null) {
-//            musicPlayerService.stop();
-//            musicPlayerService.release();
-//        }
-//
-//        musicPlayerService.createMediaPlayer(fPosition);
-//        musicPlayerService.start();
-//        // seek bar
-
-//        mediaPlayer = new MediaPlayer();
-//
-//        try {
-//            mediaPlayer.setDataSource(songLink);
-//            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-//                @Override
-//                public void onPrepared(MediaPlayer mp) {
-//                    mediaPlayer.start();
-//                }
-//            });
-//            mediaPlayer.prepareAsync();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        mediaPlayer.setOnCompletionListener(this);
-
         songLayoutName.setText(getArguments().getString("song_name"));
         songLayoutArtistName.setText(getArguments().getString("artist_name"));
         playAndPauseBtn.setImageResource(R.drawable.pause_btn);
@@ -202,31 +133,8 @@ public class SongFragment extends Fragment implements ActionPlaying, ServiceConn
         intent.putExtra("servicePosition", fPosition);
         getActivity().startService(intent);
 
-        //musicPlayerService.OnCompleted();
-
         return rootView;
     }
-
-//    private void getDurationTotal(String link) {
-//        int length = musicPlayerService.getDuration() / 1000;
-//        songLayoutDurationTotal.setText(formattedTime(length));
-//    }
-
-//    private String formattedTime(int mCurrentPosition) {
-//        String totalOut = "";
-//        String totalNew = "";
-//        String seconds = String.valueOf(mCurrentPosition % 60);
-//        String minutes = String.valueOf(mCurrentPosition / 60);
-//        totalOut = minutes + ":" + seconds;
-//        totalNew = minutes + ":" + "0" + seconds;
-//        if (seconds.length() == 1) {
-//            return totalNew;
-//        }
-//        else {
-//            return totalOut;
-//        }
-//    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -280,24 +188,19 @@ public class SongFragment extends Fragment implements ActionPlaying, ServiceConn
             else {
                 fPosition = ((fPosition - 1) < 0 ? fragmentSongsList.size() - 1 : fPosition - 1);
             }
-            // i dont know
             musicPlayerService.createMediaPlayer(fPosition);
             songLayoutName.setText(fragmentSongsList.get(fPosition).getName());
             songLayoutArtistName.setText(fragmentSongsList.get(fPosition).getArtist());
-            //getDurationTotal(songLink);
-            //seekBar.setMax(musicPlayerService.getDuration() / 1000);
-//            getActivity().runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    if (musicPlayerService != null) {
-//                        int mCurrentPosition = musicPlayerService.getCurrentPosition() / 1000;
-//                        seekBar.setProgress(mCurrentPosition);
-//                    }
-//                    handler.postDelayed(this, 1000);
-//                }
-//            });
+            String songImageLink = fragmentSongsList.get(fPosition).getImage();
+            try {
+                Glide.with(songLayoutImage.getContext())
+                        .load(songImageLink)
+                        .into(songLayoutImage);
+            } catch (Exception e) {
+
+            }
             musicPlayerService.OnCompleted();
-            musicPlayerService.showNotification();
+            musicPlayerService.showNotification(R.drawable.pause_btn);
             playAndPauseBtn.setImageResource(R.drawable.pause_btn);
         } else {
             musicPlayerService.stop();
@@ -311,22 +214,17 @@ public class SongFragment extends Fragment implements ActionPlaying, ServiceConn
             musicPlayerService.createMediaPlayer(fPosition);
             songLayoutName.setText(fragmentSongsList.get(fPosition).getName());
             songLayoutArtistName.setText(fragmentSongsList.get(fPosition).getArtist());
-            //getDurationTotal(songLink);
-            //seekBar.setMax(musicPlayerService.getDuration() / 1000);
-//            getActivity().runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    if (musicPlayerService != null) {
-//                        int mCurrentPosition = musicPlayerService.getCurrentPosition() / 1000;
-//                        seekBar.setProgress(mCurrentPosition);
-//                    }
-//                    handler.postDelayed(this, 1000);
-//                }
-//            });
+            String songImageLink = fragmentSongsList.get(fPosition).getImage();
+            try {
+                Glide.with(songLayoutImage.getContext())
+                        .load(songImageLink)
+                        .into(songLayoutImage);
+            } catch (Exception e) {
+
+            }
             musicPlayerService.OnCompleted();
-            musicPlayerService.showNotification();
+            musicPlayerService.showNotification(R.drawable.pause_btn);
             playAndPauseBtn.setImageResource(R.drawable.pause_btn);
-            // change play button image
         }
     }
 
@@ -376,20 +274,16 @@ public class SongFragment extends Fragment implements ActionPlaying, ServiceConn
             musicPlayerService.createMediaPlayer(fPosition);
             songLayoutName.setText(fragmentSongsList.get(fPosition).getName());
             songLayoutArtistName.setText(fragmentSongsList.get(fPosition).getArtist());
-            //getDurationTotal(songLink);
+            String songImageLink = fragmentSongsList.get(fPosition).getImage();
+            try {
+                Glide.with(songLayoutImage.getContext())
+                        .load(songImageLink)
+                        .into(songLayoutImage);
+            } catch (Exception e) {
+
+            }
             musicPlayerService.OnCompleted();
-            musicPlayerService.showNotification();
-            //seekBar.setMax(musicPlayerService.getDuration() / 1000);
-//            getActivity().runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    if (musicPlayerService != null) {
-//                        int mCurrentPosition = musicPlayerService.getCurrentPosition() / 1000;
-//                        seekBar.setProgress(mCurrentPosition);
-//                    }
-//                    handler.postDelayed(this, 1000);
-//                }
-//            });
+            musicPlayerService.showNotification(R.drawable.pause_btn);
             playAndPauseBtn.setImageResource(R.drawable.pause_btn);
         } else {
             musicPlayerService.stop();
@@ -403,20 +297,16 @@ public class SongFragment extends Fragment implements ActionPlaying, ServiceConn
             musicPlayerService.createMediaPlayer(fPosition);
             songLayoutName.setText(fragmentSongsList.get(fPosition).getName());
             songLayoutArtistName.setText(fragmentSongsList.get(fPosition).getArtist());
-            //getDurationTotal(songLink);
-            //seekBar.setMax(musicPlayerService.getDuration() / 1000);
-//            getActivity().runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    if (musicPlayerService != null) {
-//                        int mCurrentPosition = musicPlayerService.getCurrentPosition() / 1000;
-//                        seekBar.setProgress(mCurrentPosition);
-//                    }
-//                    handler.postDelayed(this, 1000);
-//                }
-//            });
+            String songImageLink = fragmentSongsList.get(fPosition).getImage();
+            try {
+                Glide.with(songLayoutImage.getContext())
+                        .load(songImageLink)
+                        .into(songLayoutImage);
+            } catch (Exception e) {
+
+            }
             musicPlayerService.OnCompleted();
-            musicPlayerService.showNotification();
+            musicPlayerService.showNotification(R.drawable.pause_btn);
             playAndPauseBtn.setImageResource(R.drawable.pause_btn);
         }
     }
@@ -429,34 +319,12 @@ public class SongFragment extends Fragment implements ActionPlaying, ServiceConn
     public void playPauseBtnClicked() {
         if (musicPlayerService.isPlaying()) {
             playAndPauseBtn.setImageResource(R.drawable.play_btn);
-            musicPlayerService.showNotification();
+            musicPlayerService.showNotification(R.drawable.play_btn);
             musicPlayerService.pause();
-            //seekBar.setMax(musicPlayerService.getDuration() / 1000);
-//            getActivity().runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    if (musicPlayerService != null) {
-//                        int mCurrentPosition = musicPlayerService.getCurrentPosition() / 1000;
-//                        seekBar.setProgress(mCurrentPosition);
-//                    }
-//                    handler.postDelayed(this, 1000);
-//                }
-//            });
         } else {
             playAndPauseBtn.setImageResource(R.drawable.pause_btn);
-            musicPlayerService.showNotification();
+            musicPlayerService.showNotification(R.drawable.pause_btn);
             musicPlayerService.start();
-            //seekBar.setMax(musicPlayerService.getDuration() / 1000);
-//            getActivity().runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    if (musicPlayerService != null) {
-//                        int mCurrentPosition = musicPlayerService.getCurrentPosition() / 1000;
-//                        seekBar.setProgress(mCurrentPosition);
-//                    }
-//                    handler.postDelayed(this, 1000);
-//                }
-//            });
         }
     }
 
@@ -467,13 +335,9 @@ public class SongFragment extends Fragment implements ActionPlaying, ServiceConn
 
         musicPlayerService.setCallBack(this);
 
-        //Toast.makeText(getActivity(), "Connected" + musicPlayerService, Toast.LENGTH_SHORT).show();
         musicPlayerService.OnCompleted();
-        musicPlayerService.showNotification();
+        musicPlayerService.showNotification(R.drawable.pause_btn);
 
-        //int songLength = musicPlayerService.getDuration() / 1000;
-        //System.out.println("fragment, song length: " + songLength);
-        //seekBar.setMax(songLength);
     }
 
     @Override

@@ -22,6 +22,7 @@ import android.provider.MediaStore;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.text.format.DateUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -67,13 +68,11 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnComplet
 
     MediaSessionCompat mediaSessionCompat;
 
-    Bitmap bitmap;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mediaSessionCompat = new MediaSessionCompat(getBaseContext(), "My Audio");
-
     }
 
     @Override
@@ -84,7 +83,6 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnComplet
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        //System.out.println("Bind");
         return mBinder;
     }
 
@@ -98,7 +96,6 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnComplet
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         int myPosition = intent.getIntExtra("servicePosition", -1);
-        System.out.println("myPosition:" + myPosition);
 
         String actionName = intent.getStringExtra("ActionName");
 
@@ -126,7 +123,6 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnComplet
             }
         }
         return START_STICKY;
-        //return super.onStartCommand(intent, flags, startId);
     }
 
     private void playMedia(int startPosition) {
@@ -134,19 +130,15 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnComplet
             musicLinks.add(fragmentSongsList.get(i).getLink());
         }
         position = startPosition;
+        Log.i("testing", "playmedia position: "+ position);
         if(mediaPlayer != null) {
-            System.out.println("mediaPlayer != null");
             mediaPlayer.stop();
             mediaPlayer.release();
             if (musicLinks != null) {
                 createMediaPlayer(position);
-                //
-                // mediaPlayer.prepareAsync();
             }
         } else {
             createMediaPlayer(position);
-            //mediaPlayer.start();
-            //mediaPlayer.prepareAsync();
         }
     }
 
@@ -203,14 +195,9 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnComplet
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        System.out.println("I am in on completion");
         if (actionPlaying != null) {
-            System.out.println("actionPlaying != null");
             actionPlaying.nextBtnClicked();
             if (mediaPlayer != null) {
-                System.out.println("mediaPlayer != null");
-                //createMediaPlayer(position);
-                //mediaPlayer.start();
                 OnCompleted();
             }
         }
@@ -220,7 +207,7 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnComplet
         this.actionPlaying = actionPlaying;
     }
 
-    void showNotification() {
+    void showNotification(int playPauseButton) {
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this, CHANNEL_ID_2)
                 .setSmallIcon(android.R.drawable.ic_media_play)
@@ -235,27 +222,17 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnComplet
 
         Intent pauseIntent = new Intent(this, NotificationReceiver.class)
                 .setAction(ACTION_PLAY);
-        PendingIntent pausePendingIntent = PendingIntent.getBroadcast(this, 0, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pausePendingIntent = PendingIntent.getBroadcast(this, 1, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.notif_play_btn, pausePendingIntent);
 
         Intent nextIntent = new Intent(this, NotificationReceiver.class)
                 .setAction(ACTION_NEXT);
-        PendingIntent nextPendingIntent = PendingIntent.getBroadcast(this, 0, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent nextPendingIntent = PendingIntent.getBroadcast(this, 2, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setOnClickPendingIntent(R.id.notif_next_btn, nextPendingIntent);
 
         remoteViews.setTextViewText(R.id.notif_song_title, fragmentSongsList.get(position).getName());
         remoteViews.setTextViewText(R.id.notif_artist, fragmentSongsList.get(position).getArtist());
-
-//                .setContentTitle(fragmentSongsList.get(position).getName())
-//                .setContentText(fragmentSongsList.get(position).getArtist())
-//                .addAction(android.R.drawable.ic_media_previous, "Previous", previousPendingIntent)
-//                .addAction(android.R.drawable.ic_media_play, "Pause", pausePendingIntent)
-//                .addAction(android.R.drawable.ic_media_next, "Next", nextPendingIntent)
-//                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
-//                        .setMediaSession(mediaSessionCompat.getSessionToken()))
-//                .setPriority(NotificationCompat.PRIORITY_HIGH)
-//                .setOnlyAlertOnce(true)
-//                .build();
+        remoteViews.setImageViewResource(R.id.notif_play_btn, playPauseButton);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notification.setContent(remoteViews);
@@ -263,15 +240,6 @@ public class MusicPlayerService extends Service implements MediaPlayer.OnComplet
 
         startForeground(NOTIF_ID, notification.build());
 
-        // start foreground??
-    }
-
-    private int getDurationInMilliseconds(String path) {
-        FFmpegMediaMetadataRetriever mmr = new FFmpegMediaMetadataRetriever();
-        mmr.setDataSource(path);
-        int duration = Integer.parseInt(mmr.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_DURATION));
-        mmr.release();
-        return duration;
     }
 
 }

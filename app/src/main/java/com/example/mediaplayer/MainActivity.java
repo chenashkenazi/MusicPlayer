@@ -68,16 +68,22 @@ public class MainActivity extends AppCompatActivity implements SongFragment.OnSo
 
     private Song newSong;
 
-    private Song song1 = new Song("Blinding Lights", "The Weeknd", "https://www.mboxdrive.com/drums.mp3" ,
+    private Song song1 = new Song("Blinding Lights", "The Weeknd", "https://www.mboxdrive.com/The-Weeknd-Blinding-Lights_OpraDre.com_.mp3" ,
             "https://upload.wikimedia.org/wikipedia/he/e/e6/The_Weeknd_-_Blinding_Lights.png");
-    private Song song2 = new Song("Blinding Lights2", "The Weeknd", "https://www.syntax.org.il/xtra/bob2.mp3" ,
-            "https://upload.wikimedia.org/wikipedia/he/e/e6/The_Weeknd_-_Blinding_Lights.png");
-    private Song song3 = new Song("Blinding Lights3", "The Weeknd", "https://www.syntax.org.il/xtra/bob1.m4a" ,
-            "https://upload.wikimedia.org/wikipedia/he/e/e6/The_Weeknd_-_Blinding_Lights.png");
-    private Song song4 = new Song("Blinding Lights4", "The Weeknd", "https://www.syntax.org.il/xtra/bob2.mp3" ,
-            "https://upload.wikimedia.org/wikipedia/he/e/e6/The_Weeknd_-_Blinding_Lights.png");
-    private Song song5 = new Song("Blinding Lights5", "The Weeknd", "https://www.syntax.org.il/xtra/bob1.m4a" ,
-            "https://upload.wikimedia.org/wikipedia/he/e/e6/The_Weeknd_-_Blinding_Lights.png");
+    private Song song2 = new Song("Enjoy The Silence", "Depeche Mode", "https://drive.google.com/uc?id=1QGce2feJ-Eu3QOrvWzI9k05jQwe-KFXw&export=download" ,
+            "https://cdns-images.dzcdn.net/images/cover/e73716d037ee24f1331a8c0332526590/500x500.jpg");
+    private Song song3 = new Song("Don't Let Go (Love)", "En Vogue", "https://drive.google.com/uc?id=1H3wBspy8gmz4mH9WVzLP2nbfjmLp05zM&export=download" ,
+            "https://images.genius.com/dba0667c1549973a23edcee29c05c453.1000x1000x1.jpg");
+    private Song song4 = new Song("La Isla Bonita", "Madonna", "https://drive.google.com/uc?id=1etTZByUHQvSWC77yrPCKZztxA-LMerNX&export=download" ,
+            "https://upload.wikimedia.org/wikipedia/he/c/c8/Madonna%2C_La_Isla_Bonita_cover_New.png");
+    private Song song5 = new Song("Instant Crush", "Daft Punk", "https://drive.google.com/uc?id=1VcixPHVX-BoJF57TuiQwA3gqV5zdJ5tJ&export=download" ,
+            "https://cdns-images.dzcdn.net/images/cover/b298094528702627877720d0be4448b5/500x500.jpg");
+    private Song song6 = new Song("Makes Me Wonder", "Maroon 5", "https://drive.google.com/uc?id=1FpBZBB39OE9cZeK5lbNLkuwIfzDTH550&export=download" ,
+            "https://upload.wikimedia.org/wikipedia/he/8/87/Maroon5-makes-me-wonder.jpg");
+    private Song song7 = new Song("Feel Good Inc.", "Gorillaz", "https://drive.google.com/uc?id=1_vRHP-AYqZ8nygfp80nDVWMeV-VFY-Fx&export=download" ,
+            "https://m.media-amazon.com/images/M/MV5BYTBjMDk5YjQtOTAxNC00MDZmLTllNjgtNDc5NjRhNTAxMWMzXkEyXkFqcGdeQXVyNTk1NTMyNzM@._V1_.jpg");
+    private Song song8 = new Song("Shape of You", "Ed Sheeran", "https://drive.google.com/uc?id=1asQPKREgQHO7R5rRCTtnx5xYrJQG-nc6&export=download" ,
+            "https://cdns-images.dzcdn.net/images/cover/000a9228cecfcc7c2093d9cd7bb66447/350x350.jpg");
 
     SongAdapter songAdapter;
 
@@ -132,12 +138,8 @@ public class MainActivity extends AppCompatActivity implements SongFragment.OnSo
             // record the fact that the app has been started at least once
             settings.edit().putBoolean("my_first_time", false).commit();
         } else {
-            Log.i("Comments", "NOT First time");
             loadList(this);
         }
-
-        settings.edit().remove("my_first_time").commit();
-        System.out.println(settings.getBoolean("my_first_time", true));
 
         Button addNewSongBtn = findViewById(R.id.add_new_song_btn);
         addNewSongBtn.setBackgroundResource(R.drawable.fade_button);
@@ -257,6 +259,9 @@ public class MainActivity extends AppCompatActivity implements SongFragment.OnSo
         songs.add(song3);
         songs.add(song4);
         songs.add(song5);
+        songs.add(song6);
+        songs.add(song7);
+        songs.add(song8);
     }
 
     private static boolean isExternalStorageReadOnly() {
@@ -281,7 +286,6 @@ public class MainActivity extends AppCompatActivity implements SongFragment.OnSo
             FileOutputStream fos = activity.openFileOutput("songsList", activity.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(songs);
-            Toast.makeText(MainActivity.this, "list saved", Toast.LENGTH_SHORT).show();
             oos.close();
             fos.close();
         } catch (FileNotFoundException e) {
@@ -295,14 +299,12 @@ public class MainActivity extends AppCompatActivity implements SongFragment.OnSo
 
     public void loadList (AppCompatActivity activity) {
         try {
-            Toast.makeText(MainActivity.this, "list loaded from file", Toast.LENGTH_SHORT).show();
             FileInputStream fis = activity.openFileInput("songsList");
             ObjectInputStream ois = new ObjectInputStream(fis);
             songs = (ArrayList<Song>)ois.readObject();
             ois.close();
             fis.close();
         } catch (IOException | ClassNotFoundException e) {
-            Toast.makeText(MainActivity.this, "Fuck it", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }

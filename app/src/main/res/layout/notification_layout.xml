@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="#000">
 
     <TextView
@@ -28,21 +27,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
-        android:layout_below="@+id/notif_artist">
+        android:layout_alignParentEnd="true">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/previous_btn"
+            android:layout_gravity="center_vertical"
             android:id="@+id/notif_previous_btn" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/play_purple_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/play_btn"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:id="@+id/notif_play_btn"/>
@@ -51,16 +51,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/next_btn"
+            android:layout_gravity="center_vertical"
             android:id="@+id/notif_next_btn"/>
     </LinearLayout>
-
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="15dp"
-        android:layout_centerVertical="true"
-        android:id="@+id/notif_song_image"/>
 
 
 </RelativeLayout>
