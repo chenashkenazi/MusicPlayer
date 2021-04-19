@@ -7,10 +7,6 @@ The user can add songs as he wishes, write their name and artist, write a url an
 
 When leaving the app the music continues to play and can be controlled via a control panel that is on a notification.
 
-![main](https://user-images.githubusercontent.com/58274766/115277625-2f1e4a00-a14d-11eb-8143-0282d02bbfde.JPG)
+![main](https://user-images.githubusercontent.com/58274766/115277625-2f1e4a00-a14d-11eb-8143-0282d02bbfde.JPG) ![new](https://user-images.githubusercontent.com/58274766/115277731-4d844580-a14d-11eb-825f-9ad9507aaeab.JPG)
 
-![new](https://user-images.githubusercontent.com/58274766/115277731-4d844580-a14d-11eb-825f-9ad9507aaeab.JPG)
-
-![notificaion](https://user-images.githubusercontent.com/58274766/115277823-64c33300-a14d-11eb-9bd1-459859222fa3.JPG)
-
-![song](https://user-images.githubusercontent.com/58274766/115277890-773d6c80-a14d-11eb-9c6b-937782e2359c.JPG)
+![notificaion](https://user-images.githubusercontent.com/58274766/115277823-64c33300-a14d-11eb-9bd1-459859222fa3.JPG) ![song](https://user-images.githubusercontent.com/58274766/115277890-773d6c80-a14d-11eb-9c6b-937782e2359c.JPG)
