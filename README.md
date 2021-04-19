@@ -13,3 +13,4 @@ When leaving the app the music continues to play and can be controlled via a con
 
 ![notificaion](https://user-images.githubusercontent.com/58274766/115277823-64c33300-a14d-11eb-9bd1-459859222fa3.JPG)
 
+![song](https://user-images.githubusercontent.com/58274766/115277890-773d6c80-a14d-11eb-9c6b-937782e2359c.JPG)
